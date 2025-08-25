@@ -184,6 +184,7 @@ const Navbar = () => {
   const navigationItems = [
     { name: 'Ana Səhifə', href: '/', icon: Home },
     { name: 'Forum', href: '/forum', icon: MessageSquare },
+    { name: 'Efir', href: '/efir', icon: Zap },
     { name: 'Klublar', href: '/clubs', icon: Users },
     { name: 'Ustalar', href: '/masters', icon: Wrench }
   ];
@@ -224,7 +225,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3 group">
-            <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
+            <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
               <Car className="w-6 h-6 text-white" />
             </div>
             <div className="hidden sm:block">
@@ -453,12 +454,26 @@ const Navbar = () => {
                 >
                   Daxil ol
                 </Link>
-                <Link
-                  to="/register"
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-5 py-2 rounded-xl text-sm font-medium transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105"
-                >
-                  Qeydiyyat
-                </Link>
+                <div className="relative group">
+                  <button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-5 py-2 rounded-xl text-sm font-medium transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105 flex items-center">
+                    Qeydiyyat
+                    <ChevronDown className="w-4 h-4 ml-2 group-hover:rotate-180 transition-transform" />
+                  </button>
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-200 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                    <Link
+                      to="/register"
+                      className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                    >
+                      İstifadəçi Qeydiyyatı
+                    </Link>
+                    <Link
+                      to="/master-register"
+                      className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                    >
+                      Usta Qeydiyyatı
+                    </Link>
+                  </div>
+                </div>
               </div>
             )}
 
@@ -532,9 +547,16 @@ const Navbar = () => {
                   <Link
                     to="/register"
                     onClick={() => setIsOpen(false)}
-                    className="block px-3 py-2.5 text-base font-medium text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl mt-2"
+                    className="block px-3 py-2.5 text-base font-medium text-white bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl mt-2"
                   >
-                    Qeydiyyat
+                    İstifadəçi Qeydiyyatı
+                  </Link>
+                  <Link
+                    to="/master-register"
+                    onClick={() => setIsOpen(false)}
+                    className="block px-3 py-2.5 text-base font-medium text-white bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl mt-2"
+                  >
+                    Usta Qeydiyyatı
                   </Link>
                 </div>
               )}

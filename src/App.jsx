@@ -12,6 +12,10 @@ import AddPostForm from './pages/AddPostForm';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ProfilePage from './pages/ProfilePage';
+import AdminPage from './pages/AdminPage';
+import EfirPage from './pages/EfirPage';
+import MasterRegistrationPage from './pages/MasterRegistrationPage';
+import SettingsPage from './pages/SettingsPage';
 
 // Professional placeholder components with Layout
 const ClubsPage = () => (
@@ -1518,29 +1522,7 @@ const MasterProfilePage = () => (
   </Layout>
 );
 
-const AdminPage = () => (
-  <Layout>
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-12 text-center">
-          <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <svg className="w-10 h-10 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-            </svg>
-          </div>
-          <h1 className="text-3xl font-bold text-slate-900 mb-4">Admin Panel</h1>
-          <p className="text-slate-600 mb-8">Bu bölməyə yalnız admin istifadəçiləri daxil ola bilər.</p>
-          <div className="inline-flex items-center bg-red-50 text-red-700 px-4 py-2 rounded-lg">
-            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728L5.636 5.636m12.728 12.728L18.364 5.636M5.636 18.364l12.728-12.728" />
-            </svg>
-            Giriş məhdudlaşdırılıb
-          </div>
-        </div>
-      </div>
-    </div>
-  </Layout>
-);
+
 
 const NotFoundPage = () => (
   <Layout>
@@ -1581,34 +1563,102 @@ import { ThemeProvider } from './context/ThemeContext';
 // Protected Route Component
 const ProtectedRoute = ({ children, requiredAuth = true }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
   
   useEffect(() => {
     const token = localStorage.getItem('authToken');
+    console.log('ProtectedRoute - authToken:', token); // Debug üçün
     setIsAuthenticated(!!token);
+    setLoading(false);
   }, []);
 
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg className="w-8 h-8 text-blue-600 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+          </div>
+          <p className="text-slate-600">Yoxlanılır...</p>
+        </div>
+      </div>
+    );
+  }
+
   if (requiredAuth && !isAuthenticated) {
+    console.log('ProtectedRoute - Login tələb olunur, /login-ə yönləndirilir'); // Debug üçün
     return <Navigate to="/login" replace />;
   }
 
   if (!requiredAuth && isAuthenticated) {
+    console.log('ProtectedRoute - Artıq login olmusunuz, /profile-ə yönləndirilir'); // Debug üçün
     return <Navigate to="/profile" replace />;
   }
 
+  console.log('ProtectedRoute - Uğurlu keçid'); // Debug üçün
   return children;
 };
 
 // Admin Route Component
 const AdminRoute = ({ children }) => {
   const [isAdmin, setIsAdmin] = useState(false);
+  const [loading, setLoading] = useState(true);
   
   useEffect(() => {
     const userRole = localStorage.getItem('userRole');
+    console.log('Current userRole:', userRole); // Debug üçün
     setIsAdmin(userRole === 'admin');
+    setLoading(false);
   }, []);
 
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg className="w-8 h-8 text-blue-600 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+          </div>
+          <p className="text-slate-600">Admin yoxlanılır...</p>
+        </div>
+      </div>
+    );
+  }
+
   if (!isAdmin) {
-    return <Navigate to="/" replace />;
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12">
+        <div className="text-center max-w-md mx-auto">
+          <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg className="w-10 h-10 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+          </div>
+          <h1 className="text-3xl font-bold text-slate-900 mb-4">Admin Panel</h1>
+          <p className="text-slate-600 mb-8">Bu bölməyə yalnız admin istifadəçiləri daxil ola bilər.</p>
+          <div className="inline-flex items-center bg-red-50 text-red-700 px-4 py-2 rounded-lg">
+            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728L5.636 5.636m12.728 12.728L18.364 5.636M5.636 18.364l12.728-12.728" />
+            </svg>
+            Giriş məhdudlaşdırılıb
+          </div>
+          <div className="mt-6">
+            <button 
+              onClick={() => {
+                localStorage.setItem('userRole', 'admin');
+                window.location.reload();
+              }}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors"
+            >
+              Admin Ol
+            </button>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return children;
@@ -1674,27 +1724,19 @@ function App() {
           <div className={`App ${theme === 'dark' ? 'dark' : ''} min-h-screen bg-gray-50`}>
             <Routes>
               {/* Auth Routes - No Layout for clean design */}
-              <Route 
-                path="/login" 
-                element={
-                  <ProtectedRoute requiredAuth={false}>
-                    <LoginPage />
-                  </ProtectedRoute>
-                } 
-              />
-              <Route 
-                path="/register" 
-                element={
-                  <ProtectedRoute requiredAuth={false}>
-                    <RegisterPage />
-                  </ProtectedRoute>
-                } 
-              />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
 
               {/* Public Routes */}
               <Route path="/" element={<Home />} />
               <Route path="/forum" element={<ForumPage />} />
               <Route path="/forum/post/:id" element={<PostDetail />} />
+              <Route path="/efir" element={<EfirPage />} />
+              <Route path="/clubs" element={<ClubsPage />} />
+              <Route path="/clubs/:id" element={<ClubDetailPage />} />
+              <Route path="/masters" element={<MastersPage />} />
+              <Route path="/masters/:id" element={<MasterProfilePage />} />
+              <Route path="/master-register" element={<MasterRegistrationPage />} />
 
               {/* Protected Routes */}
               <Route 
@@ -1714,15 +1756,35 @@ function App() {
                 } 
               />
 
-              {/* Other Routes */}
-              <Route path="/clubs" element={<ClubsPage />} />
-              <Route path="/clubs/:id" element={<ClubDetailPage />} />
-              <Route path="/masters" element={<MastersPage />} />
-              <Route path="/masters/:id" element={<MasterProfilePage />} />
+              {/* Protected Routes */}
+              <Route 
+                path="/profile" 
+                element={
+                  <ProtectedRoute>
+                    <ProfilePage />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/forum/add-post" 
+                element={
+                  <ProtectedRoute>
+                    <AddPostForm />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/settings" 
+                element={
+                  <ProtectedRoute>
+                    <SettingsPage />
+                  </ProtectedRoute>
+                } 
+              />
 
               {/* Admin Routes */}
               <Route 
-                path="/admin/*" 
+                path="/admin" 
                 element={
                   <AdminRoute>
                     <AdminPage />

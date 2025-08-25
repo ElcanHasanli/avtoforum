@@ -226,7 +226,7 @@ const Home = () => {
                 <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                   <Link
                     to="/forum"
-                    className="  text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center shadow-lg hover:shadow-xl hover:scale-105"
+                    className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center shadow-lg hover:shadow-xl hover:scale-105"
                   >
                     <MessageSquare className="w-5 h-5 mr-2" />
                     Ekspert Məsləhəti Al
@@ -329,7 +329,7 @@ const Home = () => {
                           
                           <Link
                             to={`/masters/${master.id}`}
-                            className="w-full bg-slate-900 hover:bg-slate-800 text-white py-3 px-6 rounded-lg font-semibold transition-colors flex items-center justify-center group-hover:shadow-lg"
+                            className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors flex items-center justify-center group-hover:shadow-lg"
                           >
                             Profili Görüntülə
                             <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -337,6 +337,114 @@ const Home = () => {
                         </div>
                       </div>
                     ))}
+                  </div>
+                </div>
+
+                {/* Efir Section - Active Users and Their Activities */}
+                <div>
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
+                    <div className="mb-4 sm:mb-0">
+                      <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">Aktiv İstifadəçilər</h2>
+                      <p className="text-slate-600">Hal-hazırda saytda məşğul olan istifadəçilər və onların fəaliyyətləri</p>
+                    </div>
+                    <Link
+                      to="/efir"
+                      className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center justify-center sm:justify-start w-full sm:w-auto"
+                    >
+                      <Users className="w-5 h-5 mr-2" />
+                      Hamısını Gör
+                    </Link>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {/* Active User 1 */}
+                    <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 hover:shadow-md transition-shadow">
+                      <div className="flex items-center space-x-3 mb-4">
+                        <div className="relative">
+                          <img
+                            src="https://images.unsplash.com/photo-1472099645785-3004980ad54e?w=60&h=60&fit=crop&crop=face"
+                            alt="Elvin Məmmədov"
+                            className="w-12 h-12 rounded-full object-cover"
+                          />
+                          <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
+                        </div>
+                        <div>
+                          <h3 className="font-bold text-slate-900">Elvin Məmmədov</h3>
+                          <p className="text-sm text-slate-500">BMW Club Prezidenti</p>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
+                        <p className="text-sm text-blue-700">BMW F30 haqqında post yazır</p>
+                      </div>
+                      
+                      <div className="flex items-center justify-between text-sm text-slate-500">
+                        <span>2 dəqiqə əvvəl</span>
+                        <span className="flex items-center">
+                          <Car className="w-4 h-4 mr-1" />
+                          BMW F30
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Active User 2 */}
+                    <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 hover:shadow-md transition-shadow">
+                      <div className="flex items-center space-x-3 mb-4">
+                        <div className="relative">
+                          <img
+                            src="https://images.unsplash.com/photo-1494790108755-2616b612b1b0?w=60&h=60&fit=crop&crop=face"
+                            alt="Aytac Quliyeva"
+                            className="w-12 h-12 rounded-full object-cover"
+                          />
+                          <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
+                        </div>
+                        <div>
+                          <h3 className="font-bold text-slate-900">Aytac Quliyeva</h3>
+                          <p className="text-sm text-slate-500">Mercedes Club Üzvü</p>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-green-50 border border-green-200 rounded-lg p-3 mb-3">
+                        <p className="text-sm text-green-700">Mercedes C200 servis postu paylaşır</p>
+                      </div>
+                      
+                      <div className="flex items-center justify-between text-sm text-slate-500">
+                        <span>5 dəqiqə əvvəl</span>
+                        <span className="flex items-center">
+                          <Car className="w-4 h-4 mr-1" />
+                          Mercedes C200
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Active Users Summary */}
+                    <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border-2 border-dashed border-blue-200 p-6">
+                      <div className="text-center">
+                        <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                          <Users className="w-8 h-8 text-blue-600" />
+                        </div>
+                        <h3 className="text-lg font-bold text-slate-900 mb-2">Platforma Aktivliyi</h3>
+                        <p className="text-slate-600 text-sm mb-4">
+                          Hal-hazırda 247 istifadəçi online
+                        </p>
+                        <div className="grid grid-cols-3 gap-2 mb-4">
+                          {[1, 2, 3, 4, 5, 6].map((i) => (
+                            <img
+                              key={i}
+                              src={`https://images.unsplash.com/photo-${1500648767791 + i}?w=40&h=40&fit=crop&crop=face`}
+                              alt="Active User"
+                              className="w-8 h-8 rounded-full object-cover border-2 border-white"
+                            />
+                          ))}
+                        </div>
+                        <Link
+                          to="/efir"
+                          className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors text-sm"
+                        >
+                          Hamısını Gör
+                        </Link>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
@@ -349,7 +457,7 @@ const Home = () => {
                     </div>
                     <Link
                       to="/forum/add-post"
-                      className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center justify-center sm:justify-start w-full sm:w-auto"
+                      className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center justify-center sm:justify-start w-full sm:w-auto"
                     >
                       <MessageSquare className="w-5 h-5 mr-2" />
                       Sual Ver
