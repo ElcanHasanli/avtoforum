@@ -1,4 +1,3 @@
-// src/components/clubs/ClubCard.jsx
 import React, { useState } from 'react';
 import { Users, Calendar, MessageCircle, Star, MapPin, Crown, UserPlus, Eye } from 'lucide-react';
 
@@ -12,7 +11,6 @@ const ClubCard = ({ clubData }) => {
   };
 
   const getBrandLogo = (brand) => {
-    // Bu real proyektdə brand logoları olacaq
     const brandColors = {
       'BMW': 'from-blue-600 to-blue-800',
       'Mercedes': 'from-gray-600 to-gray-900',
@@ -26,7 +24,6 @@ const ClubCard = ({ clubData }) => {
 
   return (
     <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group">
-      {/* Header with Brand Background */}
       <div className={`h-32 bg-gradient-to-br ${getBrandLogo(clubData.brand)} relative overflow-hidden`}>
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="absolute top-4 left-4 flex items-center space-x-2">
@@ -39,7 +36,6 @@ const ClubCard = ({ clubData }) => {
           </div>
         </div>
         
-        {/* Premium Badge */}
         {clubData.isPremium && (
           <div className="absolute top-4 right-4 bg-yellow-500 text-white px-2 py-1 rounded-full text-xs font-bold flex items-center">
             <Crown className="w-3 h-3 mr-1" />
@@ -47,16 +43,13 @@ const ClubCard = ({ clubData }) => {
           </div>
         )}
 
-        {/* Online Members Indicator */}
         <div className="absolute bottom-4 right-4 bg-white/20 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm flex items-center">
           <div className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></div>
           {clubData.onlineMembers} online
         </div>
       </div>
 
-      {/* Content */}
       <div className="p-6">
-        {/* Club Stats */}
         <div className="grid grid-cols-3 gap-4 mb-4">
           <div className="text-center">
             <div className="text-xl font-bold text-gray-800">{memberCount}</div>
@@ -72,12 +65,10 @@ const ClubCard = ({ clubData }) => {
           </div>
         </div>
 
-        {/* Description */}
         <p className="text-gray-600 text-sm mb-4 line-clamp-2">
           {clubData.description}
         </p>
 
-        {/* Location & Rating */}
         <div className="flex items-center justify-between mb-4 text-sm text-gray-500">
           <div className="flex items-center">
             <MapPin className="w-4 h-4 mr-1" />
@@ -89,7 +80,6 @@ const ClubCard = ({ clubData }) => {
           </div>
         </div>
 
-        {/* Recent Activity */}
         <div className="bg-gray-50 rounded-lg p-3 mb-4">
           <h4 className="text-sm font-semibold text-gray-800 mb-2">Son Fəaliyyət</h4>
           <div className="space-y-2">
@@ -107,7 +97,6 @@ const ClubCard = ({ clubData }) => {
           </div>
         </div>
 
-        {/* Popular Models */}
         {clubData.popularModels && (
           <div className="mb-4">
             <h4 className="text-sm font-semibold text-gray-800 mb-2">Populyar Modellər</h4>
@@ -124,7 +113,6 @@ const ClubCard = ({ clubData }) => {
           </div>
         )}
 
-        {/* Action Buttons */}
         <div className="flex space-x-3">
           <button
             onClick={handleJoinClub}
@@ -152,7 +140,6 @@ const ClubCard = ({ clubData }) => {
           </button>
         </div>
 
-        {/* Club Leader */}
         {clubData.leader && (
           <div className="mt-4 pt-4 border-t border-gray-100">
             <div className="flex items-center space-x-3">

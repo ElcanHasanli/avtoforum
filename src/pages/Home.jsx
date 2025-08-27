@@ -1,4 +1,3 @@
-// src/pages/Home.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '../components/Layout/Layout'
@@ -12,7 +11,6 @@ import {
 } from 'lucide-react';
 
 const Home = () => {
-  // Categories with icons and colors
   const categories = [
     { id: 'general', name: 'Ümumi', icon: MessageSquare, color: 'slate', count: 245 },
     { id: 'technical', name: 'Texniki', icon: Wrench, color: 'blue', count: 189 },
@@ -23,8 +21,6 @@ const Home = () => {
     { id: 'tuning', name: 'Tuninq', icon: Paintbrush, color: 'pink', count: 76 },
     { id: 'insurance', name: 'Sığorta', icon: FileText, color: 'indigo', count: 65 }
   ];
-
-  // Premium Masters
   const premiumMasters = [
     { 
       id: 1, 
@@ -63,8 +59,6 @@ const Home = () => {
       location: "Bakı, Nərimanov"
     }
   ];
-
-  // Forum Topics
   const topics = [
     {
       id: 1,
@@ -109,19 +103,13 @@ const Home = () => {
       solved: false
     }
   ];
-
-  // Company Stats
   const companyStats = [
     { label: "Aktiv İstifadəçi", value: "15,240", icon: Users, color: "blue" },
     { label: "Həll Edilən Problem", value: "8,947", icon: CheckCircle, color: "green" },
     { label: "Peşəkar Usta", value: "1,285", icon: Award, color: "yellow" },
     { label: "Forum Postları", value: "24,156", icon: MessageSquare, color: "purple" }
   ];
-
-  // Masters Slider State
   const [masterIndex, setMasterIndex] = useState(0);
-
-  // Chat State
   const [messages, setMessages] = useState([
     { 
       id: 1, 
@@ -146,15 +134,11 @@ const Home = () => {
   ]);
   const [newMessage, setNewMessage] = useState('');
   const chatRef = useRef(null);
-
-  // Auto-scroll chat
   useEffect(() => {
     if (chatRef.current) {
       chatRef.current.scrollTop = chatRef.current.scrollHeight;
     }
   }, [messages]);
-
-  // Auto slide masters
   useEffect(() => {
     const interval = setInterval(() => {
       setMasterIndex(prev => (prev + 1) % premiumMasters.length);
@@ -206,7 +190,7 @@ const Home = () => {
   return (
     <Layout>
       <div className="bg-white">
-        {/* Hero Section - Lighter Professional */}
+
         <section className="relative bg-gradient-to-br from-blue-50 via-white to-indigo-50">
           <div className="absolute inset-0 bg-gradient-to-r from-blue-600/5 to-indigo-600/5"></div>
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
@@ -226,7 +210,7 @@ const Home = () => {
                 <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                   <Link
                     to="/forum"
-                    className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center shadow-lg hover:shadow-xl hover:scale-105"
+                    className=" from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center shadow-lg hover:shadow-xl hover:scale-105"
                   >
                     <MessageSquare className="w-5 h-5 mr-2" />
                     Ekspert Məsləhəti Al
@@ -262,15 +246,15 @@ const Home = () => {
           </div>
         </section>
 
-        {/* Main Content */}
+
         <section className="py-12 sm:py-16 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
               
-              {/* Main Content Area */}
+
               <div className="lg:col-span-3 space-y-12">
                 
-                {/* Premium Masters Section */}
+
                 <div>
                   <div className="text-center mb-8 sm:mb-10">
                     <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">Sertifikatlaşdırılmış Ustalar</h2>
@@ -329,7 +313,7 @@ const Home = () => {
                           
                           <Link
                             to={`/masters/${master.id}`}
-                            className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors flex items-center justify-center group-hover:shadow-lg"
+                            className="w-full  from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors flex items-center justify-center group-hover:shadow-lg"
                           >
                             Profili Görüntülə
                             <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -340,7 +324,7 @@ const Home = () => {
                   </div>
                 </div>
 
-                {/* Efir Section - Active Users and Their Activities */}
+
                 <div>
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
                     <div className="mb-4 sm:mb-0">
@@ -349,7 +333,7 @@ const Home = () => {
                     </div>
                     <Link
                       to="/efir"
-                      className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center justify-center sm:justify-start w-full sm:w-auto"
+                      className="  text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center justify-center sm:justify-start w-full sm:w-auto"
                     >
                       <Users className="w-5 h-5 mr-2" />
                       Hamısını Gör
@@ -357,7 +341,7 @@ const Home = () => {
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {/* Active User 1 */}
+
                     <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 hover:shadow-md transition-shadow">
                       <div className="flex items-center space-x-3 mb-4">
                         <div className="relative">
@@ -387,7 +371,7 @@ const Home = () => {
                       </div>
                     </div>
 
-                    {/* Active User 2 */}
+
                     <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 hover:shadow-md transition-shadow">
                       <div className="flex items-center space-x-3 mb-4">
                         <div className="relative">
@@ -417,7 +401,7 @@ const Home = () => {
                       </div>
                     </div>
 
-                    {/* Active Users Summary */}
+
                     <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border-2 border-dashed border-blue-200 p-6">
                       <div className="text-center">
                         <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -439,7 +423,7 @@ const Home = () => {
                         </div>
                         <Link
                           to="/efir"
-                          className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors text-sm"
+                          className="inline-block  text-white px-4 py-2 rounded-lg font-medium transition-colors text-sm"
                         >
                           Hamısını Gör
                         </Link>
@@ -448,7 +432,7 @@ const Home = () => {
                   </div>
                 </div>
 
-                {/* Forum Section */}
+
                 <div>
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
                     <div className="mb-4 sm:mb-0">
@@ -457,7 +441,7 @@ const Home = () => {
                     </div>
                     <Link
                       to="/forum/add-post"
-                      className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center justify-center sm:justify-start w-full sm:w-auto"
+                      className="  to-emerald-600  text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center justify-center sm:justify-start w-full sm:w-auto"
                     >
                       <MessageSquare className="w-5 h-5 mr-2" />
                       Sual Ver
@@ -539,9 +523,9 @@ const Home = () => {
                 </div>
               </div>
 
-              {/* Sidebar */}
+
               <div className="space-y-6 sm:space-y-8">
-                {/* Categories */}
+
                 <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4 sm:p-6">
                   <h3 className="text-lg font-bold text-slate-900 mb-6">Kateqoriyalar</h3>
                   <div className="space-y-2">
@@ -561,10 +545,10 @@ const Home = () => {
                   </div>
                 </div>
 
-                {/* Professional Chat */}
+
                
 
-                {/* Contact Info */}
+
                 <div className="bg-white border border-slate-200 rounded-xl p-4 sm:p-6 shadow-sm">
                   <h3 className="text-lg font-bold text-slate-900 mb-4">Bizimlə Əlaqə</h3>
                   <div className="space-y-3">

@@ -12,6 +12,7 @@ const EfirPage = () => {
   const [activeTab, setActiveTab] = useState('users');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedFilter, setSelectedFilter] = useState('all');
+  const [featuredToday, setFeaturedToday] = useState(null);
 
   // Mock data - aktiv istifadəçilər və onların məşğuliyyətləri
   const activeUsers = [
@@ -121,6 +122,16 @@ const EfirPage = () => {
     }
   ];
 
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem('featuredUserOfDay') || 'null');
+      const today = new Date().toISOString().slice(0, 10);
+      if (saved && saved.date === today) {
+        setFeaturedToday(saved.featured);
+      }
+    } catch {}
+  }, []);
+
   const activeClubs = [
     {
       id: 1,
@@ -159,7 +170,6 @@ const EfirPage = () => {
 
   const filters = [
     { id: 'all', name: 'Hamısı', count: activeUsers.length },
-    { id: 'online', name: 'Online', count: activeUsers.filter(u => u.status === 'online').length },
     { id: 'bmw', name: 'BMW', count: activeUsers.filter(u => u.car.brand === 'BMW').length },
     { id: 'mercedes', name: 'Mercedes', count: activeUsers.filter(u => u.car.brand === 'Mercedes-Benz').length },
     { id: 'toyota', name: 'Toyota', count: activeUsers.filter(u => u.car.brand === 'Toyota').length }
@@ -191,7 +201,6 @@ const EfirPage = () => {
 
   const filteredUsers = activeUsers.filter(user => {
     if (selectedFilter === 'all') return true;
-    if (selectedFilter === 'online') return user.status === 'online';
     if (selectedFilter === 'bmw') return user.car.brand === 'BMW';
     if (selectedFilter === 'mercedes') return user.car.brand === 'Mercedes-Benz';
     if (selectedFilter === 'toyota') return user.car.brand === 'Toyota';
@@ -205,10 +214,8 @@ const EfirPage = () => {
         <div className="bg-white shadow-sm border-b border-slate-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div className="text-center">
-              <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">Aktiv İstifadəçilər</h1>
-              <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-                Hal-hazırda saytda aktiv olan istifadəçilər, onların avtomobilləri və klubları
-              </p>
+              <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">Bu Gün Aktivlik Göstərənlər</h1>
+            
             </div>
 
             {/* Search and Filter */}
@@ -229,19 +236,18 @@ const EfirPage = () => {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Navigation Tabs */}
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-1 mb-8">
+          <div className=" rounded-xl shadow-sm border border-slate-200 p-1 mb-8">
             <div className="flex space-x-1">
               {[
-                { id: 'users', label: 'Aktiv İstifadəçilər', count: activeUsers.length },
+                { id: 'users', label: 'Bu Gün Aktiv', count: activeUsers.length },
                 { id: 'clubs', label: 'Aktiv Klublar', count: activeClubs.length }
               ].map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center px-4 py-2 rounded-lg font-medium transition-all ${
+                  className={`flex items-center text-black px-4 py-2 rounded-lg font-medium transition-all ${
                     activeTab === tab.id
-                      ? 'bg-blue-600 text-white shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                     
                   }`}
                 >
                   {tab.label}
@@ -276,20 +282,57 @@ const EfirPage = () => {
           {/* Active Users Tab */}
           {activeTab === 'users' && (
             <div className="space-y-6">
+              {/* Featured user of the day */}
+              {featuredToday && (
+                <div className="bg-gradient-to-r from-emerald-50 to-blue-50 border border-emerald-200 rounded-2xl p-6">
+                  <div className="flex items-start gap-4">
+                    <img src={featuredToday.avatar} alt={featuredToday.name} className="w-16 h-16 rounded-full object-cover border-4 border-white shadow" />
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Crown className="w-4 h-4 text-amber-500" />
+                        <span className="text-xs font-semibold text-amber-700">Günün istifadəçisi</span>
+                      </div>
+                      <h3 className="text-xl font-bold text-slate-900">{featuredToday.name}</h3>
+                      {featuredToday.description && <p className="text-slate-600 mt-1">{featuredToday.description}</p>}
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                    <div className="bg-white rounded-lg p-3 border border-slate-200">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Car className="w-4 h-4 text-slate-600" />
+                        <span className="text-sm font-medium text-slate-700">Avtomobil</span>
+                      </div>
+                      {featuredToday.car?.image && (
+                        <img src={featuredToday.car.image} alt="car" className="w-full h-24 object-cover rounded mb-2" />
+                      )}
+                      <div className="text-sm text-slate-700">{featuredToday.car?.brand} {featuredToday.car?.model} {featuredToday.car?.year && `(${featuredToday.car.year})`}</div>
+                    </div>
+                    {(featuredToday.club?.name || featuredToday.club?.image) && (
+                      <div className="bg-white rounded-lg p-3 border border-slate-200">
+                        <div className="flex items-center gap-2 mb-2">
+                          <Building2 className="w-4 h-4 text-slate-600" />
+                          <span className="text-sm font-medium text-slate-700">Klub</span>
+                        </div>
+                        {featuredToday.club?.image && (
+                          <img src={featuredToday.club.image} alt="club" className="w-full h-24 object-cover rounded mb-2" />
+                        )}
+                        <div className="text-sm text-slate-700">{featuredToday.club?.name} {featuredToday.club?.role && `• ${featuredToday.club.role}`}</div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {filteredUsers.map((user) => (
+                {(featuredToday ? [] : filteredUsers).map((user) => (
                   <div key={user.id} className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 hover:shadow-lg transition-all duration-300">
                     {/* User Header */}
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex items-center space-x-3">
-                        <div className="relative">
-                          <img
-                            src={user.avatar}
-                            alt={user.name}
-                            className="w-12 h-12 rounded-full object-cover"
-                          />
-                          <div className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-white ${getStatusColor(user.status)}`}></div>
-                        </div>
+                        <img
+                          src={user.avatar}
+                          alt={user.name}
+                          className="w-12 h-12 rounded-full object-cover"
+                        />
                         <div>
                           <div className="flex items-center space-x-2">
                             <h3 className="font-bold text-slate-900">{user.name}</h3>
@@ -299,8 +342,7 @@ const EfirPage = () => {
                         </div>
                       </div>
                       <div className="text-right">
-                        <div className="text-xs text-slate-500">{user.lastActivity}</div>
-                        <div className="text-xs text-slate-400">{user.status === 'online' ? 'Online' : 'Uzaqda'}</div>
+                        <div className="text-xs text-slate-500">Bugünkü aktivlik: {user.lastActivity}</div>
                       </div>
                     </div>
 
@@ -308,7 +350,7 @@ const EfirPage = () => {
                     <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
                       <div className="flex items-center space-x-2 mb-2">
                         <TrendingUp className="w-4 h-4 text-blue-600" />
-                        <span className="text-sm font-medium text-blue-800">Hal-hazırda məşğul:</span>
+                        <span className="text-sm font-medium text-blue-800">Bu gün məşğul olduğu fəaliyyət:</span>
                       </div>
                       <p className="text-sm text-blue-700">{user.currentActivity}</p>
                     </div>
@@ -442,30 +484,7 @@ const EfirPage = () => {
             </div>
           )}
 
-          {/* Summary Stats */}
-          <div className="mt-12 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-8 text-center text-white">
-            <div className="max-w-2xl mx-auto">
-              <Users className="w-16 h-16 mx-auto mb-6" />
-              <h2 className="text-3xl font-bold mb-4">Platforma Aktivliyi</h2>
-              <p className="text-blue-100 mb-8 text-lg">
-                Hal-hazırda {activeUsers.filter(u => u.status === 'online').length} istifadəçi online və {activeClubs.length} klub aktivdir
-              </p>
-              <div className="grid grid-cols-3 gap-6 text-center">
-                <div>
-                  <div className="text-2xl font-bold">{activeUsers.length}</div>
-                  <div className="text-sm text-blue-100">Ümumi İstifadəçi</div>
-                </div>
-                <div>
-                  <div className="text-2xl font-bold">{activeUsers.filter(u => u.status === 'online').length}</div>
-                  <div className="text-sm text-blue-100">Online</div>
-                </div>
-                <div>
-                  <div className="text-2xl font-bold">{activeClubs.length}</div>
-                  <div className="text-sm text-blue-100">Aktiv Klub</div>
-                </div>
-              </div>
-            </div>
-          </div>
+         
         </div>
       </div>
     </Layout>

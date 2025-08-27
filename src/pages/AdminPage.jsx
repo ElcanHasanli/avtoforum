@@ -11,6 +11,24 @@ import {
 const AdminPage = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [searchTerm, setSearchTerm] = useState('');
+  const [featured, setFeatured] = useState({
+    name: '',
+    avatar: '',
+    description: '',
+    car: { brand: '', model: '', year: '', image: '' },
+    club: { name: '', role: '', image: '' }
+  });
+
+  const saveFeaturedForToday = () => {
+    const today = new Date().toISOString().slice(0, 10);
+    const payload = { date: today, featured };
+    try {
+      localStorage.setItem('featuredUserOfDay', JSON.stringify(payload));
+      alert('Günün istifadəçisi təyin edildi');
+    } catch (e) {
+      alert('Yazma xətası baş verdi');
+    }
+  };
 
   // Mock data
   const stats = [
@@ -84,7 +102,7 @@ const AdminPage = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Navigation Tabs */}
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-1 mb-8">
+        <div className="rounded-xl   p-1 mb-8">
           <div className="flex space-x-1">
             {[
               { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
@@ -97,8 +115,8 @@ const AdminPage = () => {
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center px-4 py-2 rounded-lg font-medium transition-all ${
                   activeTab === tab.id
-                    ? 'bg-blue-600 text-white shadow-sm'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                    ? 'text-blue-700 bg-blue-50 shadow-sm'
+                    : 'text-slate-700 hover:text-slate-900 hover:bg-slate-100'
                 }`}
               >
                 <tab.icon className="w-4 h-4 mr-2" />
@@ -394,6 +412,51 @@ const AdminPage = () => {
                     Tənzimləmələri Saxla
                   </button>
                 </div>
+              </div>
+            </div>
+
+            {/* Günün istifadəçisi */}
+            <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+              <h3 className="text-xl font-bold text-slate-900 mb-4">Günün istifadəçisi</h3>
+              <p className="text-slate-600 mb-6">Bu gün efirdə göstəriləcək istifadəçini, maşınını və varsa klubunu seçin</p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Ad Soyad</label>
+                  <input className="w-full border border-slate-300 rounded-lg px-3 py-2" value={featured.name} onChange={(e) => setFeatured(prev => ({ ...prev, name: e.target.value }))} />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Avatar URL</label>
+                  <input className="w-full border border-slate-300 rounded-lg px-3 py-2" value={featured.avatar} onChange={(e) => setFeatured(prev => ({ ...prev, avatar: e.target.value }))} />
+                </div>
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Qısa təsvir</label>
+                  <input className="w-full border border-slate-300 rounded-lg px-3 py-2" value={featured.description} onChange={(e) => setFeatured(prev => ({ ...prev, description: e.target.value }))} />
+                </div>
+              </div>
+
+              <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <h4 className="font-semibold text-slate-900 mb-3">Avtomobil</h4>
+                  <div className="grid grid-cols-1 gap-3">
+                    <input placeholder="Marka" className="border border-slate-300 rounded-lg px-3 py-2" value={featured.car.brand} onChange={(e) => setFeatured(prev => ({ ...prev, car: { ...prev.car, brand: e.target.value } }))} />
+                    <input placeholder="Model" className="border border-slate-300 rounded-lg px-3 py-2" value={featured.car.model} onChange={(e) => setFeatured(prev => ({ ...prev, car: { ...prev.car, model: e.target.value } }))} />
+                    <input placeholder="İl" className="border border-slate-300 rounded-lg px-3 py-2" value={featured.car.year} onChange={(e) => setFeatured(prev => ({ ...prev, car: { ...prev.car, year: e.target.value } }))} />
+                    <input placeholder="Şəkil URL" className="border border-slate-300 rounded-lg px-3 py-2" value={featured.car.image} onChange={(e) => setFeatured(prev => ({ ...prev, car: { ...prev.car, image: e.target.value } }))} />
+                  </div>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-slate-900 mb-3">Klub (ixtiyari)</h4>
+                  <div className="grid grid-cols-1 gap-3">
+                    <input placeholder="Klub adı" className="border border-slate-300 rounded-lg px-3 py-2" value={featured.club.name} onChange={(e) => setFeatured(prev => ({ ...prev, club: { ...prev.club, name: e.target.value } }))} />
+                    <input placeholder="Rolu" className="border border-slate-300 rounded-lg px-3 py-2" value={featured.club.role} onChange={(e) => setFeatured(prev => ({ ...prev, club: { ...prev.club, role: e.target.value } }))} />
+                    <input placeholder="Şəkil URL" className="border border-slate-300 rounded-lg px-3 py-2" value={featured.club.image} onChange={(e) => setFeatured(prev => ({ ...prev, club: { ...prev.club, image: e.target.value } }))} />
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-6">
+                <button onClick={saveFeaturedForToday} className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">Bu günü təyin et</button>
               </div>
             </div>
           </div>

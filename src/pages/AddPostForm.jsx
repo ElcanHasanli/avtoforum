@@ -248,11 +248,19 @@ const AddPostForm = () => {
               <Save className="w-4 h-4 mr-2" />
               Qaralama
             </button>
+            <button
+              onClick={() => handleSubmit(false)}
+              disabled={isSubmitting}
+              className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              <Send className="w-4 h-4 mr-2" />
+              Dərc Et
+            </button>
           </div>
         </div>
 
         {/* Form */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200">
+        <form className="bg-white rounded-xl shadow-sm border border-gray-200" onSubmit={(e) => { e.preventDefault(); handleSubmit(false); }}>
           {!showPreview ? (
             <div className="p-6 space-y-6">
               {/* General Error */}
@@ -656,29 +664,29 @@ Məsələn:
                 </button>
                 
                 <button
-                  onClick={() => handleSubmit(false)}
+                  type="submit"
                   disabled={isSubmitting}
                   className="flex items-center px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                   {isSubmitting ? (
-                    <>
-                      <svg className="animate-spin -ml-1 mr-3 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                      </svg>
-                      Göndərilir...
-                    </>
+                  <>
+                    <svg className="animate-spin -ml-1 mr-3 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Göndərilir...
+                  </>
                   ) : (
-                    <>
-                      <Send className="w-4 h-4 mr-2" />
-                      Postu Dərc Et
-                    </>
+                  <div className='flex items-center text-black'>
+                    <Send className="w-4 text-black h-4 mr-2" />
+                    Postu Dərc Et
+                  </div>
                   )}
                 </button>
               </div>
             </div>
           </div>
-        </div>
+        </form>
 
         {/* Help Section */}
         <div className="mt-8 bg-blue-50 border border-blue-200 rounded-xl p-6">
@@ -707,28 +715,7 @@ Məsələn:
           </div>
         </div>
 
-        {/* Markdown Guide */}
-        <div className="mt-6 bg-gray-50 border border-gray-200 rounded-xl p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Markdown formatlaşdırma</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-            <div>
-              <h4 className="font-semibold mb-2 text-gray-700">Mətn formatlaşdırması:</h4>
-              <ul className="space-y-1 text-gray-600 font-mono">
-                <li>**qalın mətn** → <strong>qalın mətn</strong></li>
-                <li>*kursiv mətn* → <em>kursiv mətn</em></li>
-                <li>[keçid](URL) → <span className="text-blue-600 underline">keçid</span></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-2 text-gray-700">Siyahılar:</h4>
-              <ul className="space-y-1 text-gray-600 font-mono">
-                <li>- Element 1</li>
-                <li>- Element 2</li>
-                <li>- Element 3</li>
-              </ul>
-            </div>
-          </div>
-        </div>
+       
       </div>
     </Layout>
   );
